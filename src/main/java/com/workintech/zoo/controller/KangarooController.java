@@ -23,8 +23,6 @@ public class KangarooController {
     @PostConstruct
     public void init(){
         this.kangaroos=new HashMap<>();
-        this.kangaroos.put(1,new Kangaroo(1,"kanguru test",65.0,50.0,"Male",false));
-        System.out.println("kangaroos list = " + kangaroos);
     }
     @GetMapping
     public List getKangarooList(){
@@ -34,10 +32,9 @@ public class KangarooController {
     public Kangaroo getKangarooId(@PathVariable("id") Integer id){
         ZooKangarooValidation.isIdValid(id);
         ZooKangarooValidation.checkKangarooExistance(kangaroos,id,true);
-        return this.kangaroos.get(id);
+        return kangaroos.get(id);
     }
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Kangaroo addKangaroo(@RequestBody Kangaroo kangaroo){
         ZooKangarooValidation.checkKangarooExistance(kangaroos,kangaroo.getId(),false);
         ZooKangarooValidation.checkKangarooWeight(kangaroo.getWeight());
@@ -45,7 +42,7 @@ public class KangarooController {
         return kangaroos.get(kangaroo.getId());
     }
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+
     public Kangaroo updateKangaroo (@PathVariable("id") Integer id,@RequestBody Kangaroo kangaroo){
         ZooKangarooValidation.isIdValid(id);
         ZooKangarooValidation.checkKangarooWeight(kangaroo.getWeight());
